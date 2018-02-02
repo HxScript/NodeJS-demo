@@ -1,18 +1,17 @@
-var express = require("express")
-var app = express()
+// Copyright (c) 2018 by HxScript. All Rights Reserved.
 var MongoClient = require("mongodb").MongoClient
 
-app.get("/", function(req,res) {
-  //数据库地址，/test即数据库，没有则自动创建
-  var url = "mongodb://localhost:27017/test"
+function __connectDB(/*mdata*/) {
+  var url = "mongodb://localhost:27017/" //+ mdata
   MongoClient.connect(url, function(err,db) {
+    //回调函数表示连接数据库成功之后要做的事情，db即连接上的数据库实体
     if(err) {
-      console.log("数据库连接失败")
+      console.log("can't correctly connect to server.")
       return
     }
-    // assert.equal(null, err)
     console.log("connected correctly to server.")
-    db.close()
+    // assert.equal(null, err)
   })
-})
-app.listen(3000)
+}
+
+__connectDB()
