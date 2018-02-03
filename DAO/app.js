@@ -40,7 +40,7 @@ app.get("/fenye1", function(req,res) {
 app.get("/fenye2", function(req,res) {
   var page = parseInt(req.query.page)
   var step = 5
-  db.findPage("student", {},[(page - 1) * step, step], function(err,result) {
+  db.findPage("student", {},[page, step], function(err,result) {
     if(err) {
       console.log("分页查找失败")
       return

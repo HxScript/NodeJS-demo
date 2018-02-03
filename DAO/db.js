@@ -66,8 +66,9 @@ exports.findPage = function(collectionName, json, skip, callback) {
   if (skip.length != 2) {
     callback("步进输入错误", null)
   }
-  var start = skip[0]
   var step = skip[1]
+  var start = skip[0] * step
+
 
   __connectDB(function(err,db) {
     // skip（2）:从数据集的第二条开始查询
