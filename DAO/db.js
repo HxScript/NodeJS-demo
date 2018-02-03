@@ -86,3 +86,6 @@ exports.findPage = function(collectionName, json, skip, callback) {
     })
   })
 }
+
+
+//改进find函数，实现对是否有skip参数能进行重载
