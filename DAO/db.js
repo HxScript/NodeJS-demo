@@ -90,3 +90,19 @@ exports.findPage = function(collectionName, json, skip, callback) {
 
 
 //改进find函数，实现对是否有skip参数能进行重载
+
+
+
+//封装删除函数
+exports.deleteMany = function(collectionName, json, callback) {
+  __connectDB(function(err,db) {
+    db.collection("collectionName").deleteMany(json, function(err, result) {
+      if(err) {
+        callback(err, null)
+        return
+      }
+      cosole.log(result)
+      callback(null,result)
+    })
+  })
+}
