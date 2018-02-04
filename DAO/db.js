@@ -1,8 +1,8 @@
 // Copyright (c) 2018 by HxScript. All Rights Reserved.
 var MongoClient = require("mongodb").MongoClient
-
-function __connectDB(/*mdata,*/ callback) {
-  var url = "mongodb://localhost:27017/cug" //+ mdata
+var settings = require("./setting.js")
+function __connectDB(callback) {
+  var url = settings.dburl + settings.dblib
   MongoClient.connect(url, function(err,db) {
     //回调函数表示连接数据库成功之后要做的事情，db即连接上的数据库实体
     if(err) {
@@ -42,12 +42,14 @@ exports.findAll = function(collectionName, json, callback) {
     cursor.each(function(err,doc) {
       if(err) {
         callback(err,null)
+        db.close()
         return
       }
       if (doc != null) {
         result.push(doc)
       } else {
         callback(null, result)
+        db.close()
       }
     })
   })
@@ -77,6 +79,7 @@ exports.findPage = function(collectionName, json, skip, callback) {
     cursor.each(function(err,doc) {
       if(err) {
         callback(err,null)
+        db.close()
         return
       }
       if (doc != null) {
@@ -98,11 +101,30 @@ exports.deleteMany = function(collectionName, json, callback) {
   __connectDB(function(err,db) {
     db.collection("collectionName").deleteMany(json, function(err, result) {
       if(err) {
+        cosole.log(err)
         callback(err, null)
+        db.close()
         return
       }
-      cosole.log(result)
+      // console.log(result)
       callback(null,result)
+      db.close()
     })
+  })
+}
+
+
+// 更改
+exports.updateMany = function(collectionName, json1, json2, callback) {
+  __connectDB(function(err,db) {
+    db.collection(collectionName).updateMany(
+      json1,
+      json2,
+      function(err, result) {
+        console.log(result)
+        callback(err, result)
+        db.colse()
+      }
+    )
   })
 }

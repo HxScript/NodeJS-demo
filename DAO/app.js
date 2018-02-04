@@ -50,5 +50,25 @@ app.get("/fenye2", function(req,res) {
 })
 
 
+app.get("/del", function(req,res) {
+  var age = parseInt(req.query.age)
+  console.log(age)
+  db.deleteMany("student", {}, function(err, result) {
+    if(err) {console.log(err)}
+    res.send(result)
+  })
+})
+
+app.get("/update", function(req,res) {
+  db.updateMany("student", {"name" : "baba"},{$set: {"age" : 33}} , function(err,result) {
+    if(err) {
+      console.log("分页查找失败")
+      return
+    }
+    res.send(result)
+  })
+})
+
+
 
 app.listen(3000)
