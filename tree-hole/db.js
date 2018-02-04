@@ -97,7 +97,6 @@ exports.findPage = function(collectionName, json, skip, callback) {
 
 
 //封装删除函数
-// 2018-2-4 有问题
 exports.deleteMany = function(collectionName, json, callback) {
   __connectDB(function(err,db) {
     db.collection("collectionName").deleteMany(json, function(err, result) {
