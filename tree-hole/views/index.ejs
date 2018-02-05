@@ -7,7 +7,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <style>
+        #success,#defeat {
+            display: none;
+        }
+    </style>
     <title>树洞!</title>
   </head>
   <body>
@@ -29,24 +33,31 @@
 
 
     <main role="main">
+      <hr>
       <div class="container">
         <form action="">
           <div class="form-group">
             <div class="input-group">
-              <span class="input-group-addon" id="name" name="name">姓名：</span>
-              <input type="text" class="form-control" placeholder="请输入你的名字">
+              <span class="input-group-addon">姓名：</span>
+              <input type="text" class="form-control" id="name" name="name" placeholder="请输入你的名字">
             </div>
           </div>
           <div class="form-group">
             <div class="input-group">
-              <span class="input-group-addon" id="liuyan" name="liuyan">留言：</span>
-              <textarea name="name" rows="8" cols="80" type="text" class="form-control" placeholder="请输入你的留言" > </textarea>
+              <span class="input-group-addon">留言：</span>
+              <textarea name="name" rows="6"  id="liuyan" name="liuyan" cols="80" type="text" class="form-control" placeholder="请输入你的留言" > </textarea>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-offset-2 col-sm-10">
-              <button class="btn btn-success" type="submit">提交</button>
+            <div class="col-offset-2 col-sm-6">
+              <button id="tijiao" class="btn btn-success" type="button">提交</button>
             </div>
+          </div>
+          <div class="alert alert-success" role="alert" id="success">
+              <a href="#">表单已经成功提交！</a>
+          </div>
+          <div class="alert alert-info" role="alert" id="defeat">
+              <a href="#">表单提交失败！</a>
           </div>
         </form>
       </div>
@@ -63,8 +74,25 @@
             </footer>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.js"></script>
     <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        $("#tijiao").click(function() {
+            $("#success").hide()
+            $("#defeat").hide()
+            $.post("/tijiao", {
+                "name" : $("#name").val(),
+                "liuyan" : $("#liuyan").val()
+            },function(result) {
+                if (result.result == 1) {
+                    $("#success").fadeIn()
+                }  else if (result.result == -1) {
+                    $("#defeat").fadeIn()
+                }
+                return
+            })
+        })
+    </script>
   </body>
 </html>
