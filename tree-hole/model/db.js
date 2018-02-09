@@ -7,7 +7,7 @@ function __connectDB(callback) {
     //回调函数表示连接数据库成功之后要做的事情，db即连接上的数据库实体
     if(err) {
       console.log("can't correctly connect to server.")
-      return
+      callback(err,db)
     }
     console.log("connected correctly to server.")
     // assert.equal(null, err)
@@ -22,6 +22,9 @@ exports.insertOne = function(collectionName, json, callback) {
   }
   console.log("db成功")
   __connectDB(function(err,db) {
+    if(err) {
+          callback(err,null)
+      }
     db.collection(collectionName).insertOne(json, function(err,result) {
       callback(err,result)
       db.close()
